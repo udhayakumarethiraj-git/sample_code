@@ -1,18 +1,12 @@
 version: 0.0
 os: linux
+
 files:
   - source: /
     destination: /var/www/html
+
 hooks:
-  BeforeInstall:
-    - location: scripts/stop_httpd.sh
-      timeout: 60
-      runas: root
   AfterInstall:
-    - location: scripts/install_deps.sh
-      timeout: 300
-      runas: root
-  ApplicationStart:
-    - location: scripts/start_httpd.sh
-      timeout: 60
-      runas: root
+    - location: scripts/deploy.sh
+      timeout: 600
+      runas: ec2-user
