@@ -1,28 +1,24 @@
 #!/bin/bash
-set -e  # Exit on any error
+set -e
 
-echo "Starting deployment with rsync..."
+echo "Starting deployment..."
 
-# Define target directory
-TARGET_DIR="/var/www/html"
+# Define source and destination directories
+SRC_DIR="/opt/codedeploy-agent/deployment-root/$DEPLOYMENT_GROUP_ID/$DEPLOYMENT_ID/deployment-archive"
+DEST_DIR="/var/www/html"
 
-# Ensure target directory exists
-sudo mkdir -p $TARGET_DIR
+echo "Copying application files from $SRC_DIR to $DEST_DIR"
 
-# Clean existing files but keep directory
-sudo rm -rf ${TARGET_DIR:?}/*
+# Create destination directory if it doesn't exist
+sudo mkdir -p $DEST_DIR
 
-# Use rsync to copy files safely, excluding deployment files
-sudo rsync -av --exclude='scripts' --exclude='appspec.yml' ./ $TARGET_DIR/
+# Use rsync safely — exclude system directories
+sudo rsync -av --delete "$SRC_DIR/" "$DEST_DIR/" \
+  --exclude='/proc' \
+  --exclude='/sys' \
+  --exclude='/dev' \
+  --exclude='/tmp' \
+  --exclude='/var/log' \
+  --exclude='/opt/codedeploy-agent' 
 
-# Restart Apache if running
-if systemctl is-active --quiet httpd; then
-  echo "Restarting Apache..."
-  sudo systemctl restart httpd
-else
-  echo "Starting Apache..."
-  sudo systemctl start httpd
-fi
-
-echo "Deployment completed successfully."
-
+echo "Deployment completed successfully!"
