@@ -20,3 +20,5 @@ chown -R ec2-user:ec2-user /var/www/html
 chmod -R 755 /var/www/html
 
 echo "Dependencies installed successfully."
+
+echo "Dependencies installed successfully."

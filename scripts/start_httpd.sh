@@ -12,3 +12,5 @@ else
     echo "Error: httpd service failed to start!"
     exit 1
 fi
+
+
