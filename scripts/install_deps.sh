@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # 2nd line edited using web editor
+# 3rd line added for testing edited using web to have hands on rebase command
 set -e
 
 
