@@ -22,3 +22,4 @@ chmod -R 755 /var/www/html
 echo "Dependencies installed successfully."
 
 echo "Dependencies installed successfully."
+# dummy data added for testing purpose
